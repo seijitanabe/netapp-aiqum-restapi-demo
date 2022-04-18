@@ -8,16 +8,19 @@ AIQUM_PWD=Netapp1!
 # Encode authentication information
 AUTH_BAS64=`echo -n $AIQUM_USER:$AIQUM_PWD | openssl enc -e -base64`
 
+# Input a source SVM name
 echo -n Input a source SVM name:
 read SVM_NAME
 
+# Input a source volume name
 echo -n Input a source volume name:
 read SRC_VOL_NAME
 
+# Input a clone volume name
 echo -n Input a clone volume name:
 read CLONE_VOL_NAME
 
-# Get CLUSTER_UUID
+# Get a cluster UUID
 CLUSTER_UUID=`curl -k -s -X GET "$API_URL/datacenter/svm/svms?name=$SVM_NAME" -H "accept: application/json" -H "authorization: Basic $AUTH_BAS64"  | jq -r '.records[].cluster.uuid'` &> /dev/null
 
 # Create a FlexClone volume
